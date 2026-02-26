@@ -6,7 +6,11 @@
 /storage/*.key
 /storage/pail
 /vendor
+/node_modules
 .env
+storage/*.json
+public/storage
+/storage/app/magic_cards.json
 .env.backup
 .env.production
 .phpactor.json

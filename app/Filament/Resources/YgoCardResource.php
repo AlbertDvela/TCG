@@ -16,14 +16,13 @@ class YgoCardResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    // 1. Activar el buscador global (la barra superior de Filament)
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationLabel = 'Catálogo'; // Nombre en el menú
+    protected static ?string $navigationLabel = 'Catalogo';
 
-    protected static ?string $navigationGroup = 'YuGiOh!';   // Grupo que los envuelve
+    protected static ?string $navigationGroup = 'YuGiOh!';
 
-    protected static ?string $slug = 'yugioh/catalogo';     // URL amigable
+    protected static ?string $slug = 'yugioh/catalogo';
 
     public static function getGloballySearchableAttributes(): array
     {
@@ -41,11 +40,11 @@ class YgoCardResource extends Resource
                     ->label('Nombre de la Carta')
                     ->required(),
                 Forms\Components\TextInput::make('set_code')
-                    ->label('Código del Set'),
+                    ->label('Codigo del Set'),
                 Forms\Components\TextInput::make('rarity')
                     ->label('Rareza'),
                 Forms\Components\Textarea::make('description')
-                    ->label('Descripción')
+                    ->label('Descripcion')
                     ->columnSpanFull(),
             ]);
     }
@@ -66,7 +65,6 @@ class YgoCardResource extends Resource
                     ->label('Nombre de la Carta')
                     ->searchable()
                     ->sortable()
-                    // Esto pone la rareza justo debajo del nombre en gris pequeño
                     ->description(fn (YgoCard $record): string => "Rareza: {$record->rarity}"),
 
                 Tables\Columns\TextColumn::make('set_code')
@@ -79,14 +77,12 @@ class YgoCardResource extends Resource
                     ->label('TCGPlayer ($)')
                     ->money('USD')
                     ->sortable()
-                    // Estilo dinámico: Verde si es cara, Bold si es joya
                     ->color(fn ($state): string => (float) $state > 20 ? 'success' : 'gray')
                     ->weight(fn ($state): string => (float) $state > 50 ? 'bold' : 'normal'),
 
-                // Si aún la quieres como una columna aparte, la añadimos así:
                 Tables\Columns\TextColumn::make('rarity')
                     ->label('Rareza')
-                    ->toggleable(isToggledHiddenByDefault: true), // Oculta por defecto para no saturar
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -94,7 +90,6 @@ class YgoCardResource extends Resource
             ]);
     }
 
-    // Para quitar la posibilidad de crear nuevas cartas manualmente en el catálogo
     public static function canCreate(): bool
     {
         return false;
@@ -103,9 +98,9 @@ class YgoCardResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListYgoCards::route('/'),
+            'index'  => Pages\ListYgoCards::route('/'),
             'create' => Pages\CreateYgoCard::route('/create'),
-            'edit' => Pages\EditYgoCard::route('/{record}/edit'),
+            'edit'   => Pages\EditYgoCard::route('/{record}/edit'),
         ];
     }
 
@@ -115,14 +110,12 @@ class YgoCardResource extends Resource
             ->schema([
                 \Filament\Infolists\Components\Section::make()
                     ->schema([
-                        // Imagen en la parte de arriba
                         \Filament\Infolists\Components\ImageEntry::make('image_path')
                             ->label(false)
                             ->disk('url')
                             ->height(400)
                             ->alignCenter(),
 
-                        // Información de la carta
                         \Filament\Infolists\Components\Grid::make(3)
                             ->schema([
                                 \Filament\Infolists\Components\TextEntry::make('name')->label('Nombre'),
@@ -131,18 +124,19 @@ class YgoCardResource extends Resource
                             ]),
 
                         \Filament\Infolists\Components\TextEntry::make('description')
-                            ->label('Efecto / Descripción')
+                            ->label('Efecto / Descripcion')
                             ->columnSpanFull(),
 
-                        // Botón de Acción (Lógica a definir luego)
                         \Filament\Infolists\Components\Actions::make([
                             \Filament\Infolists\Components\Actions\Action::make('addToInventory')
-                                ->label('Agregar al Inventario Existente')
+                                ->label('Agregar al Inventario')
                                 ->icon('heroicon-m-plus-circle')
                                 ->color('success')
-                                ->action(function () {
-                                    // Aquí irá la lógica de YuGi House más adelante
-                                }),
+                                ->url(fn ($record): string =>
+                                    \App\Filament\Resources\CardInventoryResource::getUrl('create', [
+                                        'card_id' => $record->id,
+                                    ])
+                                ),
                         ])->alignCenter(),
                     ]),
             ]);

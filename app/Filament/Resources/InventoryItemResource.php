@@ -11,6 +11,8 @@ use Filament\Tables\Table;
 
 class InventoryItemResource extends Resource
 {
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $model = InventoryItem::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';

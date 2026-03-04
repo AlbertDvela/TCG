@@ -3,13 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class YgoCard extends Model
 {
-    /**
-     * Los atributos que se pueden asignar masivamente.
-     * Esto permite que el comando sync-all guarde los datos.
-     */
     protected $fillable = [
         'konami_id',
         'name',
@@ -24,4 +21,20 @@ class YgoCard extends Model
         'def',
         'market_price',
     ];
+
+    /**
+     * Todos los ejemplares físicos de esta carta en el inventario.
+     */
+    public function inventory(): HasMany
+    {
+        return $this->hasMany(CardInventory::class, 'ygo_card_id');
+    }
+
+    /**
+     * Cantidad total en stock sumando todos los ejemplares.
+     */
+    public function getTotalStockAttribute(): int
+    {
+        return $this->inventory()->sum('quantity');
+    }
 }

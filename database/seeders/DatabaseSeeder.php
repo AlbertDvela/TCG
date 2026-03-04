@@ -13,11 +13,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
+        // Usuario administrador por defecto
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name'  => 'Admin YuGi House',
+            'email' => 'admin@yugihouse.com',
+        ]);
+
+        // Catálogos base necesarios para el inventario
+        $this->call([
+            CardConditionSeeder::class,
+            CardEditionSeeder::class,
+            ProductTypeSeeder::class,
         ]);
     }
 }

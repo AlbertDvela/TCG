@@ -1,0 +1,9 @@
+<?php
+
+namespace App\Core\Interfaces;
+
+interface TcgModuleInterface {
+    public function getMarketPrice(string $externalId): float;
+    public function getCardTemplate(): string; // Para saber qué campos mostrar en Filament
+    public function syncCatalog(): void;       # Actualización masiva
+}

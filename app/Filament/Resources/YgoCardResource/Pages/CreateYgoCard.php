@@ -3,15 +3,15 @@
 namespace App\Filament\Resources\YgoCardResource\Pages;
 
 use App\Filament\Resources\YgoCardResource;
-use Filament\Resources\Pages\CreateRecord;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\CreateRecord;
 
 // El nombre de la clase debe ser IGUAL al nombre del archivo
 class CreateYgoCard extends CreateRecord
 {
     protected static string $resource = YgoCardResource::class;
 
-    public function getTitle(): string 
+    public function getTitle(): string
     {
         return 'Registrar Carta de Yu-Gi-Oh';
     }
@@ -37,14 +37,14 @@ class CreateYgoCard extends CreateRecord
     }
 
     /**
-     * Hook antes de crear: 
+     * Hook antes de crear:
      * Aquí podríamos añadir lógica de validación extra si fuera necesario
      */
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // Ejemplo: Forzar que el código del set siempre esté en mayúsculas
         $data['set_code'] = strtoupper($data['set_code']);
-        
+
         return $data;
     }
 }

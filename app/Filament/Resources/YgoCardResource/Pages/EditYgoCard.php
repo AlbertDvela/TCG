@@ -18,8 +18,8 @@ class EditYgoCard extends EditRecord
     }
 
     // ESTO DEBE SER PUBLIC PARA QUE NO DE ERROR FATAL
-    public function getTitle(): string 
+    public function getTitle(): string
     {
-        return "Editando: " . $this->record->name;
+        return 'Editando: '.$this->record->name;
     }
 }

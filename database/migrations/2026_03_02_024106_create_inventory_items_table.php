@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('inventory_items', function (Blueprint $table) {
             $table->id();
             // Esto crea 'inventoriable_id' e 'inventoriable_type' automáticamente
-            $table->morphs('inventoriable'); 
-            
+            $table->morphs('inventoriable');
+
             $table->string('condition'); // NM, LP, etc.
             $table->boolean('is_foil')->default(false);
             $table->string('language')->default('Spanish');

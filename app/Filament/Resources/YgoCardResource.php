@@ -80,8 +80,8 @@ class YgoCardResource extends Resource
                     ->money('USD')
                     ->sortable()
                     // Estilo dinámico: Verde si es cara, Bold si es joya
-                    ->color(fn ($state): string => (float)$state > 20 ? 'success' : 'gray')
-                    ->weight(fn ($state): string => (float)$state > 50 ? 'bold' : 'normal'),
+                    ->color(fn ($state): string => (float) $state > 20 ? 'success' : 'gray')
+                    ->weight(fn ($state): string => (float) $state > 50 ? 'bold' : 'normal'),
 
                 // Si aún la quieres como una columna aparte, la añadimos así:
                 Tables\Columns\TextColumn::make('rarity')
@@ -121,7 +121,7 @@ class YgoCardResource extends Resource
                             ->disk('url')
                             ->height(400)
                             ->alignCenter(),
-                        
+
                         // Información de la carta
                         \Filament\Infolists\Components\Grid::make(3)
                             ->schema([
@@ -129,7 +129,7 @@ class YgoCardResource extends Resource
                                 \Filament\Infolists\Components\TextEntry::make('konami_id')->label('ID Konami'),
                                 \Filament\Infolists\Components\TextEntry::make('set_code')->label('Set'),
                             ]),
-                        
+
                         \Filament\Infolists\Components\TextEntry::make('description')
                             ->label('Efecto / Descripción')
                             ->columnSpanFull(),
@@ -144,7 +144,7 @@ class YgoCardResource extends Resource
                                     // Aquí irá la lógica de YuGi House más adelante
                                 }),
                         ])->alignCenter(),
-                    ])
+                    ]),
             ]);
-}
+    }
 }

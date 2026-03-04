@@ -2,15 +2,15 @@
 
 namespace App\Console\Commands\Yugioh;
 
-use Illuminate\Console\Command;
 use App\Models\YgoCard;
 use App\Services\YugiohService;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Console\Command;
 
 class SyncSet extends Command
 {
     // El comando se usará como: php artisan ygo:sync-set "Legend of Blue Eyes White Dragon"
     protected $signature = 'ygo:sync-set {set_name}';
+
     protected $description = 'Importa todas las cartas de un set específico desde la API';
 
     public function handle(YugiohService $service)
@@ -20,8 +20,9 @@ class SyncSet extends Command
 
         $cards = $service->getCardFromApi($setName); // Reutilizamos tu servicio
 
-        if (!$cards) {
-            $this->error("No se encontraron cartas para este set.");
+        if (! $cards) {
+            $this->error('No se encontraron cartas para este set.');
+
             return;
         }
 
